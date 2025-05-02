@@ -1,6 +1,8 @@
 import { User } from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import getDataUri from "../utils/datauri.js";
+import cloudinary from "../utils/cloudinary.js";
 
 // Creating the Register function
 export const register = async (req, res) => {
@@ -10,8 +12,15 @@ export const register = async (req, res) => {
             return res.status(400).json({
                 message: "Something is missing",
                 success: false
-            })
-        }
+            });
+        };
+        const file = req.file;
+        const fileUri = getDataUri(file);
+        const cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
+            resource_type: 'auto'
+        });
+
+
         const user = await User.findOne({ email });
         if (user) {
             return res.status(400).json({
@@ -26,7 +35,10 @@ export const register = async (req, res) => {
             email,
             phoneNumber,
             password: hashedPassword,
-            role
+            role,
+            profile: {
+                profilePhoto: cloudResponse.secure_url,
+            }
         })
         return res.status(201).json({
             message: 'Account created successfully',
@@ -88,7 +100,8 @@ export const login = async (req, res) => {
 
         return res.status(200).cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: 'strict' }).json({
             message: `Welcome back ${userData.fullname}`, // Fixed the template string
-            success: true
+            success: true,
+            user: userData
         })
     } catch (error) {
         console.log('Some error occurred', error)
@@ -111,12 +124,16 @@ export const logout = async (req, res) => {
 export const updateProfile = async (req, res) => {
     try {
         const { fullname, email, phoneNumber, bio, skills } = req.body;
-        const file = register.file;
-        
+        const file = req.file;
+
         // Cloudinary aaega idhar.....
+        const fileUri = getDataUri(file);
+        const cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
+            resource_type: 'auto'
+        });
 
         let skillsArray;
-        if(skills){
+        if (skills) {
             skillsArray = skills.split(',');
         }
         const userId = req.id;  // Middleware authentication
@@ -137,6 +154,10 @@ export const updateProfile = async (req, res) => {
         if (skills) user.profile.skills = skillsArray;
 
         // Resume part comes later here......
+        if (cloudResponse) {
+            user.profile.resume = cloudResponse.secure_url  // save the cloudinary url here
+            user.profile.resumeOriginalName = file.originalname   // saves the original file name
+        }
 
         await user.save();
 
@@ -158,4 +179,4 @@ export const updateProfile = async (req, res) => {
     } catch (error) {
         console.log('Something went wrong', error);
     }
-}
+}   
