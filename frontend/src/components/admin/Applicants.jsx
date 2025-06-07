@@ -7,7 +7,6 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAllApplicants } from '@/redux/applicationSlice';
 
-
 const Applicants = () => {
     const params = useParams();
     const dispatch = useDispatch();
@@ -24,11 +23,14 @@ const Applicants = () => {
         }
         fetchAllApplicants();
     }, []);
+
     return (
-        <div>
+        <div className="bg-white dark:bg-gray-900 min-h-screen">
             <Navbar />
-            <div className='max-w-7xl mx-auto'>
-                <h1 className='font-bold text-xl my-5'>Applicants {applicants?.applications?.length}</h1>
+            <div className='max-w-7xl mx-auto px-4 py-6'>
+                <h1 className='font-bold text-xl my-5 text-gray-900 dark:text-gray-100'>
+                    Applicants {applicants?.applications?.length}
+                </h1>
                 <ApplicantsTable />
             </div>
         </div>

@@ -17,21 +17,19 @@ const Browse = () => {
     }, [dispatch]);
 
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen bg-gray-100 dark:bg-gray-900 dark:text-white">
             <Navbar />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
                 <div className="flex justify-between items-center mb-6">
-                    <h1 className="text-2xl font-extrabold text-gray-900">
+                    <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">
                         Search Results <span className="text-[#6A38C2]">({allJobs.length})</span>
                     </h1>
                 </div>
 
                 <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                    {allJobs.map((job) => {
-                        return (
-                            <Job key={job._id} job={job} />
-                        )
-                    })}
+                    {allJobs.map((job) => (
+                        <Job key={job._id} job={job} />
+                    ))}
                 </div>
             </div>
         </div>

@@ -18,9 +18,9 @@ const Profile = () => {
   const { user } = useSelector(store => store.auth);
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
       <Navbar />
-      <div className="max-w-4xl mx-auto bg-white border border-gray-200 rounded-2xl my-8 p-8 shadow-lg">
+      <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl my-8 p-8 shadow-lg">
         <div className="flex flex-col sm:flex-row justify-between gap-6">
           <div className="flex items-center gap-5">
             <Avatar className="h-24 w-24 ring-2 ring-[#6A38C2]">
@@ -30,12 +30,12 @@ const Profile = () => {
               />
             </Avatar>
             <div>
-              <h1 className="text-2xl font-extrabold text-gray-900">{user?.fullname}</h1>
-              <p className="text-sm text-gray-600">{user?.profile?.bio}</p>
+              <h1 className="text-2xl font-extrabold text-gray-900 dark:text-gray-100">{user?.fullname}</h1>
+              <p className="text-sm text-gray-600 dark:text-gray-300">{user?.profile?.bio}</p>
             </div>
           </div>
           <Button
-            className="flex items-center gap-2 border-gray-300"
+            className="flex items-center gap-2 border-gray-300 dark:border-gray-600"
             onClick={() => setOpen(true)}
             variant="outline"
           >
@@ -44,53 +44,53 @@ const Profile = () => {
           </Button>
         </div>
 
-        <div className="my-6 border-t border-gray-200 pt-4">
-          <div className="flex items-center gap-3 my-2 text-gray-700">
+        <div className="my-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+          <div className="flex items-center gap-3 my-2 text-gray-700 dark:text-gray-300">
             <Mail size={18} />
             <span>{user?.email}</span>
           </div>
-          <div className="flex items-center gap-3 my-2 text-gray-700">
+          <div className="flex items-center gap-3 my-2 text-gray-700 dark:text-gray-300">
             <Contact size={18} />
             <span>{user?.phoneNumber}</span>
           </div>
         </div>
 
         <div className="my-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-2">Skills</h2>
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Skills</h2>
           <div className="flex flex-wrap gap-2">
             {user?.profile?.skills?.length !== 0 ? (
               user?.profile?.skills.map((item, index) => (
                 <Badge
                   key={index}
-                  className="px-3 py-1 bg-[#F0EBFF] text-[#6A38C2] rounded-full text-sm font-medium"
+                  className="px-3 py-1 bg-[#F0EBFF] dark:bg-[#4c3a8f] text-[#6A38C2] dark:text-[#d6cfff] rounded-full text-sm font-medium"
                 >
                   {item}
                 </Badge>
               ))
             ) : (
-              <span className="text-gray-500">NA</span>
+              <span className="text-gray-500 dark:text-gray-400">NA</span>
             )}
           </div>
         </div>
 
         <div className="my-6">
-          <Label className="text-md font-bold text-gray-800">Resume</Label>
+          <Label className="text-md font-bold text-gray-800 dark:text-gray-200">Resume</Label>
           {isResume ? (
             <a
               href={user?.profile?.resume}
               target="_blank"
               rel="noopener noreferrer"
-              className="block mt-1 text-blue-600 hover:underline"
+              className="block mt-1 text-blue-600 dark:text-blue-400 hover:underline"
             >
               {user?.profile?.resumeOriginalName}
             </a>
           ) : (
-            <span className="text-gray-500">NA</span>
+            <span className="text-gray-500 dark:text-gray-400">NA</span>
           )}
 
           {/* Resume Template Dropdown */}
           <div className="mt-4">
-            <Label className="text-md font-bold text-gray-800">
+            <Label className="text-md font-bold text-gray-800 dark:text-gray-200">
               Customize your resume template
             </Label>
             <select
@@ -102,7 +102,7 @@ const Profile = () => {
                 }
               }}
               defaultValue=""
-              className="border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#6A38C2]"
+              className="border border-gray-300 dark:border-gray-600 rounded-md p-2 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-[#6A38C2]"
             >
               <option value="" disabled>
                 Select a template type
@@ -115,8 +115,8 @@ const Profile = () => {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto bg-white rounded-2xl p-6 shadow-lg mb-10">
-        <h1 className="text-xl font-bold text-gray-900 mb-4">Applied Jobs</h1>
+      <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg mb-10">
+        <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">Applied Jobs</h1>
         <AppliedJobTable />
       </div>
 

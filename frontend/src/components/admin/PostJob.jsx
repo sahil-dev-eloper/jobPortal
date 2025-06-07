@@ -5,7 +5,14 @@ import { Input } from '../ui/input';
 import { Loader2 } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useSelector } from 'react-redux';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from '../ui/select';
 import { JOB_API_END_POINT } from '@/utils/constants';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -26,7 +33,7 @@ const PostJob = () => {
 
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-    const { id } = useParams(); // gets job id if editing
+    const { id } = useParams();
     const { companies } = useSelector((store) => store.company);
 
     const changeEventHandler = (e) => {
@@ -35,7 +42,9 @@ const PostJob = () => {
 
     const selectChangeHandler = (value) => {
         const selectedCompany = companies.find((company) => company.name.toLowerCase() === value);
-        setInput({ ...input, companyId: selectedCompany._id });
+        if (selectedCompany) {
+            setInput({ ...input, companyId: selectedCompany._id });
+        }
     };
 
     useEffect(() => {
@@ -97,130 +106,63 @@ const PostJob = () => {
     };
 
     return (
-        <div>
+        <div className="min-h-screen bg-gray-100 dark:bg-zinc-900 transition-colors duration-300">
             <Navbar />
-            <div className="flex items-center justify-center w-full px-4 py-10">
+            <div className="flex items-center justify-center px-4 py-10">
                 <form
                     onSubmit={submitHandler}
-                    className="w-full max-w-4xl bg-white border border-gray-200 shadow-md rounded-xl p-8 space-y-6"
+                    className="w-full max-w-4xl bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 shadow-md rounded-xl p-8 space-y-6"
                 >
-                    <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                    <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
                         {id ? 'Edit Job' : 'Post a New Job'}
                     </h2>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <Label className="text-sm">Title</Label>
-                            <Input
-                                type="text"
-                                name="title"
-                                value={input.title}
-                                onChange={changeEventHandler}
-                                className="mt-2"
-                                placeholder="Software Engineer"
-                            />
-                        </div>
-
-                        <div>
-                            <Label className="text-sm">Description</Label>
-                            <Input
-                                type="text"
-                                name="description"
-                                value={input.description}
-                                onChange={changeEventHandler}
-                                className="mt-2"
-                                placeholder="Job responsibilities, role overview..."
-                            />
-                        </div>
-
-                        <div>
-                            <Label className="text-sm">Requirements</Label>
-                            <Input
-                                type="text"
-                                name="requirements"
-                                value={input.requirements}
-                                onChange={changeEventHandler}
-                                className="mt-2"
-                                placeholder="React, Node.js, etc."
-                            />
-                        </div>
-
-                        <div>
-                            <Label className="text-sm">Salary (LPA)</Label>
-                            <Input
-                                type="text"
-                                name="salary"
-                                value={input.salary}
-                                onChange={changeEventHandler}
-                                className="mt-2"
-                                placeholder="8"
-                            />
-                        </div>
-
-                        <div>
-                            <Label className="text-sm">Location</Label>
-                            <Input
-                                type="text"
-                                name="location"
-                                value={input.location}
-                                onChange={changeEventHandler}
-                                className="mt-2"
-                                placeholder="Mumbai / Delhi / Hyderabad"
-                            />
-                        </div>
-
-                        <div>
-                            <Label className="text-sm">Job Type</Label>
-                            <Input
-                                type="text"
-                                name="jobType"
-                                value={input.jobType}
-                                onChange={changeEventHandler}
-                                className="mt-2"
-                                placeholder="Full-time / Part Time"
-                            />
-                        </div>
-
-                        <div>
-                            <Label className="text-sm">Experience Level (years)</Label>
-                            <Input
-                                type="text"
-                                name="experience"
-                                value={input.experience}
-                                onChange={changeEventHandler}
-                                className="mt-2"
-                                placeholder="0-2 years"
-                            />
-                        </div>
-
-                        <div>
-                            <Label className="text-sm">Number of Positions</Label>
-                            <Input
-                                type="number"
-                                name="position"
-                                value={input.position}
-                                onChange={changeEventHandler}
-                                className="mt-2"
-                                placeholder="3"
-                            />
-                        </div>
+                        {[
+                            { name: 'title', placeholder: 'Software Engineer' },
+                            { name: 'description', placeholder: 'Job role overview' },
+                            { name: 'requirements', placeholder: 'React, Node.js, etc.' },
+                            { name: 'salary', placeholder: '8' },
+                            { name: 'location', placeholder: 'Mumbai / Delhi' },
+                            { name: 'jobType', placeholder: 'Full-time / Part-time' },
+                            { name: 'experience', placeholder: '0-2 years' },
+                            { name: 'position', placeholder: '3', type: 'number' }
+                        ].map((field, i) => (
+                            <div key={i}>
+                                <Label className="text-sm dark:text-gray-300 capitalize">
+                                    {field.name}
+                                </Label>
+                                <Input
+                                    type={field.type || 'text'}
+                                    name={field.name}
+                                    value={input[field.name]}
+                                    onChange={changeEventHandler}
+                                    className="mt-2 dark:bg-zinc-700 dark:text-white dark:border-zinc-600 placeholder:text-gray-400 dark:placeholder:text-gray-500"
+                                    placeholder={field.placeholder}
+                                />
+                            </div>
+                        ))}
 
                         {companies.length > 0 && (
                             <div className="md:col-span-2">
-                                <Label className="text-sm">Select Company</Label>
+                                <Label className="text-sm dark:text-gray-300">Select Company</Label>
                                 <Select
                                     onValueChange={selectChangeHandler}
                                     value={
                                         companies.find((c) => c._id === input.companyId)?.name.toLowerCase() || ''
                                     }
                                 >
-                                    <SelectTrigger className="mt-2">
+                                    <SelectTrigger className="mt-2 dark:bg-zinc-700 dark:text-white dark:border-zinc-600">
                                         <SelectValue placeholder="Select a Company" />
                                     </SelectTrigger>
-                                    <SelectContent>
+                                    <SelectContent className="dark:bg-zinc-800 dark:text-white">
                                         <SelectGroup>
                                             {companies.map((company) => (
-                                                <SelectItem key={company._id} value={company.name.toLowerCase()}>
+                                                <SelectItem
+                                                    key={company._id}
+                                                    value={company.name.toLowerCase()}
+                                                    className="dark:hover:bg-zinc-700"
+                                                >
                                                     {company.name}
                                                 </SelectItem>
                                             ))}
@@ -237,7 +179,10 @@ const PostJob = () => {
                             Please wait
                         </Button>
                     ) : (
-                        <Button type="submit" className="w-full bg-[#6A38C2] hover:bg-[#5b30a6] text-white">
+                        <Button
+                            type="submit"
+                            className="w-full bg-[#6A38C2] hover:bg-[#5b30a6] text-white"
+                        >
                             {id ? 'Update Job' : 'Post New Job'}
                         </Button>
                     )}

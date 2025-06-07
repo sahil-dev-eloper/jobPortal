@@ -11,28 +11,28 @@ const AdminJobsTable = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log('called');
         const filteredJobs = allAdminJobs.filter((job) => {
-            if (!searchJobByText) {
-                return true;
-            };
-            return job?.title?.toLowerCase().includes(searchJobByText.toLowerCase()) || job?.company?.name.toLowerCase().includes(searchJobByText.toLowerCase());
+            if (!searchJobByText) return true;
+            return (
+                job?.title?.toLowerCase().includes(searchJobByText.toLowerCase()) ||
+                job?.company?.name.toLowerCase().includes(searchJobByText.toLowerCase())
+            );
         });
         setFilterJobs(filteredJobs);
-    }, [allAdminJobs, searchJobByText])
+    }, [allAdminJobs, searchJobByText]);
 
     return (
         <div className="p-4">
-            <Table className="shadow-md border rounded-md overflow-hidden">
-                <TableCaption className="text-sm text-gray-500 my-4">
+            <Table className="shadow-md border rounded-md overflow-hidden border-gray-300 dark:border-gray-700">
+                <TableCaption className="text-sm text-gray-500 dark:text-gray-400 my-4">
                     A list of your recently posted jobs
                 </TableCaption>
-                <TableHeader className="bg-gray-100">
+                <TableHeader className="bg-gray-100 dark:bg-gray-800">
                     <TableRow>
-                        <TableHead className="font-semibold text-gray-700">Company Name</TableHead>
-                        <TableHead className="font-semibold text-gray-700">Role</TableHead>
-                        <TableHead className="font-semibold text-gray-700">Date</TableHead>
-                        <TableHead className="text-right font-semibold text-gray-700">Action</TableHead>
+                        <TableHead className="font-semibold text-gray-700 dark:text-gray-300">Company Name</TableHead>
+                        <TableHead className="font-semibold text-gray-700 dark:text-gray-300">Role</TableHead>
+                        <TableHead className="font-semibold text-gray-700 dark:text-gray-300">Date</TableHead>
+                        <TableHead className="text-right font-semibold text-gray-700 dark:text-gray-300">Action</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -40,30 +40,30 @@ const AdminJobsTable = () => {
                         filterJobs.map((job, index) => (
                             <TableRow
                                 key={job._id}
-                                className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} transition hover:bg-purple-50`}
+                                className={`${index % 2 === 0 ? 'bg-white dark:bg-gray-900' : 'bg-gray-50 dark:bg-gray-800'} transition hover:bg-purple-50 dark:hover:bg-purple-900`}
                             >
-                                <TableCell>{job?.company?.name}</TableCell>
-                                <TableCell>{job?.title}</TableCell>
-                                <TableCell>{job?.createdAt?.split('T')[0]}</TableCell>
+                                <TableCell className="text-gray-900 dark:text-gray-100">{job?.company?.name}</TableCell>
+                                <TableCell className="text-gray-900 dark:text-gray-100">{job?.title}</TableCell>
+                                <TableCell className="text-gray-900 dark:text-gray-100">{job?.createdAt?.split('T')[0]}</TableCell>
                                 <TableCell className="text-right">
                                     <Popover>
-                                        <PopoverTrigger className="hover:text-purple-600 transition">
-                                            <MoreHorizontal className="w-5 h-5" />
+                                        <PopoverTrigger className="hover:text-purple-600 dark:hover:text-purple-400 transition">
+                                            <MoreHorizontal className="w-5 h-5 text-gray-700 dark:text-gray-300" />
                                         </PopoverTrigger>
-                                        <PopoverContent className="w-36">
+                                        <PopoverContent className="w-36 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 shadow-lg">
                                             <div
                                                 onClick={() => navigate(`/admin/jobs/edit/${job._id}`)}
-                                                className="flex items-center gap-2 p-2 rounded-md cursor-pointer hover:bg-gray-100"
+                                                className="flex items-center gap-2 p-2 rounded-md cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
                                             >
                                                 <Edit2 className="w-4 h-4 text-purple-600" />
-                                                <span className="text-sm">Edit</span>
+                                                <span className="text-sm text-gray-900 dark:text-gray-100">Edit</span>
                                             </div>
                                             <div
                                                 onClick={() => navigate(`/admin/jobs/${job._id}/applicants`)}
-                                                className="flex items-center gap-2 p-2 rounded-md cursor-pointer hover:bg-gray-100"
+                                                className="flex items-center gap-2 p-2 rounded-md cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
                                             >
                                                 <Eye className="w-4 h-4 text-purple-600" />
-                                                <span className="text-sm">Applicants</span>
+                                                <span className="text-sm text-gray-900 dark:text-gray-100">Applicants</span>
                                             </div>
                                         </PopoverContent>
                                     </Popover>
@@ -72,7 +72,7 @@ const AdminJobsTable = () => {
                         ))
                     ) : (
                         <TableRow>
-                            <TableCell colSpan={4} className="text-center py-6 text-gray-500">
+                            <TableCell colSpan={4} className="text-center py-6 text-gray-500 dark:text-gray-400">
                                 No jobs found matching the criteria.
                             </TableCell>
                         </TableRow>
@@ -81,7 +81,6 @@ const AdminJobsTable = () => {
             </Table>
         </div>
     );
-
 }
 
 export default AdminJobsTable

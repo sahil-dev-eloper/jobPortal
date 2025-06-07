@@ -42,7 +42,7 @@ const JobDescription = () => {
         toast.success(res.data.message);
       }
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "Something went wrong");
     }
   };
 
@@ -69,19 +69,19 @@ const JobDescription = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-12">
-      <div className="bg-white shadow-2xl rounded-2xl p-8 flex flex-col sm:flex-row sm:justify-between sm:items-center mb-10 transition-all">
+      <div className="bg-white dark:bg-gray-800 shadow-2xl dark:shadow-black/40 rounded-2xl p-8 flex flex-col sm:flex-row sm:justify-between sm:items-center mb-10 transition-all">
         <div>
-          <h1 className="text-4xl font-extrabold text-[#1a1a1a] tracking-tight mb-2">
+          <h1 className="text-4xl font-extrabold text-[#1a1a1a] dark:text-gray-100 tracking-tight mb-2">
             {singleJob?.title}
           </h1>
           <div className="flex flex-wrap gap-3 mt-3">
-            <Badge className="font-bold text-[#5b30a6] bg-[#f3ebff] border-[#5b30a6]" variant="outline">
+            <Badge className="font-bold text-[#5b30a6] bg-[#f3ebff] border-[#5b30a6] dark:bg-[#3e2a62] dark:border-[#5b30a6]" variant="outline">
               {singleJob?.position} Positions
             </Badge>
-            <Badge className="font-bold text-[#F83002] bg-[#ffe9e5] border-[#F83002]" variant="outline">
+            <Badge className="font-bold text-[#F83002] bg-[#ffe9e5] border-[#F83002] dark:bg-[#5a1e11] dark:border-[#F83002]" variant="outline">
               {singleJob?.jobType}
             </Badge>
-            <Badge className="font-bold bg-[#f0f0f0] text-[#1a1a1a]" variant="outline">
+            <Badge className="font-bold bg-[#f0f0f0] text-[#1a1a1a] dark:bg-gray-700 dark:text-gray-200" variant="outline">
               {singleJob?.salary} LPA
             </Badge>
           </div>
@@ -90,19 +90,20 @@ const JobDescription = () => {
         <Button
           onClick={isApplied ? null : applyJobHandler}
           disabled={isApplied}
-          className={`mt-6 sm:mt-0 px-6 py-3 rounded-xl font-semibold text-white shadow-lg transition-all duration-300 ${
-            isApplied
-              ? 'bg-gray-500 cursor-not-allowed'
-              : 'bg-[#6A38C2] hover:brightness-110'
-          }`}
+          className={`mt-6 sm:mt-0 px-6 py-3 rounded-xl font-semibold text-white shadow-lg transition-all duration-300 ${isApplied
+            ? 'bg-gray-500 cursor-not-allowed'
+            : 'bg-[#6A38C2] hover:brightness-110'
+            }`}
         >
           {isApplied ? 'Already Applied' : 'Apply Now'}
         </Button>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-xl p-8">
-        <h2 className="text-2xl font-bold text-[#1a1a1a] border-b pb-4 mb-6">Job Overview</h2>
-        <div className="space-y-5 text-[16px] text-gray-800">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl dark:shadow-black/40 p-8">
+        <h2 className="text-2xl font-bold text-[#1a1a1a] dark:text-gray-100 border-b border-gray-300 dark:border-gray-600 pb-4 mb-6">
+          Job Overview
+        </h2>
+        <div className="space-y-5 text-[16px] text-gray-800 dark:text-gray-300">
           <div className="flex items-center">
             <Briefcase className="h-5 w-5 mr-3 text-[#6A38C2]" />
             <span className="font-bold mr-2">Role:</span> {singleJob?.title}
@@ -115,7 +116,6 @@ const JobDescription = () => {
             <FileText className="h-5 w-5 mr-3 text-[#6A38C2] mt-1" />
             <div>
               <h1 className="font-bold">Description: <span className='font-normal'>{singleJob?.description}</span></h1>
-
             </div>
           </div>
           <div className="flex items-center">

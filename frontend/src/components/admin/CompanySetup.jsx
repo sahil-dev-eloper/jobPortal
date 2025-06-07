@@ -1,5 +1,5 @@
-import { ArrowLeft, Loader2 } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
+import { ArrowLeft, Loader2 } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
@@ -15,64 +15,68 @@ const CompanySetup = () => {
     const params = useParams();
     useGetCompanyById(params.id);
     const [input, setInput] = useState({
-        name: "",
-        description: "",
-        website: "",
-        location: "",
-        file: null
+        name: '',
+        description: '',
+        website: '',
+        location: '',
+        file: null,
     });
 
-    const { singleCompany } = useSelector(store => store.company)
+    const { singleCompany } = useSelector((store) => store.company);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const changeEventHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
-    }
+    };
 
     const changeFileHandler = (e) => {
         const file = e.target.files?.[0];
         setInput({ ...input, file });
-    }
+    };
 
     const submitHandler = async (e) => {
         e.preventDefault();
         const formData = new FormData();
-        formData.append("name", input.name);
-        formData.append("description", input.description);
-        formData.append("website", input.website);
-        formData.append("location", input.location);
+        formData.append('name', input.name);
+        formData.append('description', input.description);
+        formData.append('website', input.website);
+        formData.append('location', input.location);
         if (input.file) {
-            formData.append("file", input.file);
+            formData.append('file', input.file);
         }
         try {
             setLoading(true);
-            const res = await axios.put(`${COMPANY_API_END_POINT}/update/${params.id}`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                },
-                withCredentials: true
-            });
+            const res = await axios.put(
+                `${COMPANY_API_END_POINT}/update/${params.id}`,
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                    withCredentials: true,
+                }
+            );
             if (res.data.success) {
                 toast.success(res.data.message);
-                navigate("/admin/companies");
+                navigate('/admin/companies');
             }
         } catch (error) {
             console.log(error);
-            toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || "Something went wrong");
         } finally {
             setLoading(false);
         }
-    }
+    };
 
     useEffect(() => {
         setInput({
-            name: singleCompany.name || "",
-            description: singleCompany.description || "",
-            website: singleCompany.website || "",
-            location: singleCompany.location || "",
-            file: singleCompany.file || null
-        })
+            name: singleCompany.name || '',
+            description: singleCompany.description || '',
+            website: singleCompany.website || '',
+            location: singleCompany.location || '',
+            file: singleCompany.file || null,
+        });
     }, [singleCompany]);
 
     return (
@@ -81,23 +85,27 @@ const CompanySetup = () => {
             <div className="max-w-3xl mx-auto px-6 py-10">
                 <div className="flex items-center justify-between mb-8">
                     <Button
-                        onClick={() => navigate("/admin/companies")}
+                        onClick={() => navigate('/admin/companies')}
                         variant="outline"
-                        className="flex items-center gap-2 text-gray-600 hover:bg-gray-100"
+                        className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
                     >
                         <ArrowLeft />
                         <span>Back</span>
                     </Button>
-                    <h1 className="text-2xl font-bold text-gray-800">Company Setup</h1>
+                    <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+                        Company Setup
+                    </h1>
                 </div>
 
                 <form
                     onSubmit={submitHandler}
-                    className="bg-white border border-gray-200 rounded-xl shadow-sm p-6"
+                    className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm p-6"
                 >
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <Label className="text-sm">Company Name</Label>
+                            <Label className="text-sm text-gray-700 dark:text-gray-300">
+                                Company Name
+                            </Label>
                             <Input
                                 type="text"
                                 name="name"
@@ -108,7 +116,9 @@ const CompanySetup = () => {
                         </div>
 
                         <div>
-                            <Label className="text-sm">Description</Label>
+                            <Label className="text-sm text-gray-700 dark:text-gray-300">
+                                Description
+                            </Label>
                             <Input
                                 type="text"
                                 name="description"
@@ -119,7 +129,9 @@ const CompanySetup = () => {
                         </div>
 
                         <div>
-                            <Label className="text-sm">Website</Label>
+                            <Label className="text-sm text-gray-700 dark:text-gray-300">
+                                Website
+                            </Label>
                             <Input
                                 type="text"
                                 name="website"
@@ -130,7 +142,9 @@ const CompanySetup = () => {
                         </div>
 
                         <div>
-                            <Label className="text-sm">Location</Label>
+                            <Label className="text-sm text-gray-700 dark:text-gray-300">
+                                Location
+                            </Label>
                             <Input
                                 type="text"
                                 name="location"
@@ -141,7 +155,9 @@ const CompanySetup = () => {
                         </div>
 
                         <div className="md:col-span-2">
-                            <Label className="text-sm">Company Logo</Label>
+                            <Label className="text-sm text-gray-700 dark:text-gray-300">
+                                Company Logo
+                            </Label>
                             <Input
                                 type="file"
                                 accept="image/*"
@@ -167,7 +183,6 @@ const CompanySetup = () => {
             </div>
         </div>
     );
+};
 
-}
-
-export default CompanySetup
+export default CompanySetup;

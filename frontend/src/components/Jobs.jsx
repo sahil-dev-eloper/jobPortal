@@ -25,7 +25,7 @@ const Jobs = () => {
     }, [allJobs, searchedQuery]);
 
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
             <Navbar />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
                 <div className="flex flex-col lg:flex-row gap-6">
@@ -35,7 +35,7 @@ const Jobs = () => {
 
                     <div className="flex-1">
                         {filterJobs.length <= 0 ? (
-                            <div className="text-center text-gray-600 text-lg font-semibold mt-20">
+                            <div className="text-center text-gray-600 dark:text-gray-400 text-lg font-semibold mt-20">
                                 No jobs found matching your search.
                             </div>
                         ) : (
