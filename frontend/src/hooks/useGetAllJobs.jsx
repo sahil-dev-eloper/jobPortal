@@ -10,6 +10,7 @@ const userGetAllJobs = () => {
     useEffect(() => {
         const fetchAllJobs = async () => {
             try {
+                const token = localStorage.getItem("token");
                 const res = await axios.get(`${JOB_API_END_POINT}/get?keyword=${searchedQuery}`, {
                     headers: {
                         Authorization: `Bearer ${token}`, // 🔑 Add auth header
