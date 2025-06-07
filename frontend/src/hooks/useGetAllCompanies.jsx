@@ -9,6 +9,7 @@ const useGetAllCompanies = () => {
     useEffect(() => {
         const fetchCompanies = async () => {
             try {
+                const token = localStorage.getItem("token");
                 const res = await axios.get(`${COMPANY_API_END_POINT}/get`, {
                     headers: {
                         Authorization: `Bearer ${token}`, // 🔑 Add auth header
