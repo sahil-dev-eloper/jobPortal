@@ -9,6 +9,7 @@ const useGetAllAdminJobs = () => {
     useEffect(() => {
         const fetchAllAdminJobs = async () => {
             try {
+                const token = localStorage.getItem("token");
                 const res = await axios.get(`${JOB_API_END_POINT}/getadminjobs`, {
                     headers: {
                         Authorization: `Bearer ${token}`, // 🔑 Add auth header
