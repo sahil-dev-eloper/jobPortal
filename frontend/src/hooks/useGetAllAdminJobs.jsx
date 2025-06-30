@@ -11,7 +11,8 @@ const useGetAllAdminJobs = () => {
             try {
                 const res = await axios.get(`${JOB_API_END_POINT}/getadminjobs`, {
                     headers: {
-                        Authorization: `Bearer ${token}`, // 🔑 Add auth header
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                        
                     },
                     withCredentials: true
                 });

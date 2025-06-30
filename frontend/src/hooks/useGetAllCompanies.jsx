@@ -11,7 +11,7 @@ const useGetAllCompanies = () => {
             try {
                 const res = await axios.get(`${COMPANY_API_END_POINT}/get`, {
                     headers: {
-                        Authorization: `Bearer ${token}`, // 🔑 Add auth header
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
                     },
                     withCredentials: true
                 });

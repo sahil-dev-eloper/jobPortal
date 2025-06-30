@@ -1,18 +1,17 @@
 import axios from 'axios';
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { COMPANY_API_END_POINT } from '../utils/constants';
-import { setAllJobs } from '../redux/jobSlice';
 import { setSingleCompany } from '@/redux/companySlice';
 
 const useGetCompanyById = (companyId) => {
     const dispatch = useDispatch();
     useEffect(() => {
-        const fetchSinglrCompany = async () => {
+        const fetchSingleCompany = async () => {
             try {
                 const res = await axios.get(`${COMPANY_API_END_POINT}/get/${companyId}`, {
                     headers: {
-                        Authorization: `Bearer ${token}`, // 🔑 Add auth header
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
                     },
                     withCredentials: true
                 });
@@ -23,7 +22,7 @@ const useGetCompanyById = (companyId) => {
                 console.log(error);
             }
         }
-        fetchSinglrCompany();
+        fetchSingleCompany();
     }, [companyId, dispatch])
 }
 
