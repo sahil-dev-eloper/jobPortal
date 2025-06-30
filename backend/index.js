@@ -23,32 +23,16 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(urlencoded({ extended: true }));
+app.use(urlencoded({extended:true}));
 app.use(cookieParser());
 
 // Configuring CORS
-
-const allowedOrigins = [
-    'http://localhost:5173',
-    'https://job-portal-bice-five.vercel.app'
-];
-
 const corsOptions = {
-    origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    origin: '*',
+    credentials: true
 }
 app.use(cors(corsOptions));
 
-// Optional: Allow preflight requests
-app.options('*', cors(corsOptions));
 
 // APIs
 app.use('/api/v1/user', userRoute);
