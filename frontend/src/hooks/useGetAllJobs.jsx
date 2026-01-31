@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { JOB_API_END_POINT } from '../utils/constants';
 import { setAllJobs } from '../redux/jobSlice';
 
-const userGetAllJobs = () => {
+const useGetAllJobs = () => {
     const dispatch = useDispatch();
     const { searchedQuery } = useSelector(store => store.job);
     useEffect(() => {
@@ -24,7 +24,7 @@ const userGetAllJobs = () => {
             }
         }
         fetchAllJobs();
-    }, [])
+    }, [searchedQuery, dispatch])
 }
 
-export default userGetAllJobs
+export default useGetAllJobs

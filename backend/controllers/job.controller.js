@@ -105,18 +105,18 @@ export const getAdminJobs = async (req, res) => {
 
 // controllers/jobController.js
 
-export const getJobByIdC = async (req, res) => {
-    try {
-        const job = await Job.findById(req.params.id).populate('company');
-        if (!job) {
-            return res.status(404).json({ success: false, message: "Job not found" });
-        }
+// export const getJobByIdC = async (req, res) => {
+//     try {
+//         const job = await Job.findById(req.params.id).populate('company');
+//         if (!job) {
+//             return res.status(404).json({ success: false, message: "Job not found" });
+//         }
 
-        res.status(200).json({ success: true, job });
-    } catch (error) {
-        console.error("GET job by ID error:", error);
-        res.status(500).json({ success: false, message: "Server error" });
-    }
-};
+//         res.status(200).json({ success: true, job });
+//     } catch (error) {
+//         console.error("GET job by ID error:", error);
+//         res.status(500).json({ success: false, message: "Server error" });
+//     }
+// };
 
 
